@@ -7,7 +7,24 @@
 <!--</head>-->
 <body>
     <a href="/input"> 돌아가기 </a>
-    <br>
-    <div th:text="${Items}"></div>
+    <div class="container">
+        <div>
+            <div th:text="${username} + '님의 정보입니다.'">님의 정보입니다.</div>
+            <table>
+                <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>이미지</th>
+                </tr>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.name}"></td>
+                    <td><img th:attr="src=${item.icon}" /></td>
+                </tr>
+                </tbody>
+                </thead>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
