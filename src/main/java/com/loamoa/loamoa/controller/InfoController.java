@@ -2,6 +2,7 @@ package com.loamoa.loamoa.controller;
 
 import com.loamoa.loamoa.domain.Item;
 import com.loamoa.loamoa.domain.User;
+import com.loamoa.loamoa.repository.ItemRepository;
 import com.loamoa.loamoa.service.ItemService;
 import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONObject;
@@ -10,13 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Controller
 public class InfoController {
 
-    private final ItemService itemService;
+    private ItemService itemService;
 
     @Autowired
     public InfoController(ItemService itemService) {
@@ -34,67 +35,34 @@ public class InfoController {
 
     @PostMapping("/input/search")
     public String search(UserForm form, Model model)  {
-        Item head = new Item();
-        Item shoulder = new Item();
-        Item clothes = new Item();
-        Item pants = new Item();
-        Item gloves = new Item();
-        Item weapon = new Item();
-
+        ItemService.clearItem();
         String uname = form.getUsername();
         String result = itemService.checkItemInfo(form.getUsername());
+        String[] parts_arr = {"머리 방어구", "어깨 방어구", "상의", "하의", "장갑","무기",
+                                "목걸이", "귀걸이1", "귀걸이2", "반지1", "반지2"
+                                };
+        ArrayList<String> parts = new ArrayList<>(Arrays.asList(parts_arr));
+        LinkedHashMap<String, JSONObject> jsonMap = new LinkedHashMap<>();
+        LinkedHashMap<String, JSONObject> jsonOptionMap = new LinkedHashMap<>();
+
         JSONObject obj = new JSONObject(result);
-        JSONObject objItem = obj.getJSONObject("Items");
-        JSONObject objItemHead = objItem.getJSONObject("머리 방어구");
-        JSONObject objItemShoulder = objItem.getJSONObject("어깨 방어구");
-        JSONObject objItemClothes = objItem.getJSONObject("상의");
-        JSONObject objItemPants = objItem.getJSONObject("하의");
-        JSONObject objItemGloves = objItem.getJSONObject("장갑");
-        JSONObject objItemWeapon = objItem.getJSONObject("무기");
-        String headItem = objItemHead.getString("Name") +
-                            objItemHead.getString("Upgrade");
-
-        String shoulderItem = objItemShoulder.getString("Name") +
-                            objItemShoulder.getString("Upgrade");
-
-        String clothesItem = objItemClothes.getString("Name") +
-                                objItemClothes.getString("Upgrade");
-
-        String pantsItem = objItemPants.getString("Name") +
-                            objItemPants.getString("Upgrade");
-
-        String glovesItem = objItemGloves.getString("Name") +
-                            objItemGloves.getString("Upgrade");
-
-        String weaponItem = objItemWeapon.getString("Name") +
-                            objItemWeapon.getString("Upgrade");
-
-        ArrayList<String> equipment = new ArrayList<String>();
-        ArrayList<String> equipimage = new ArrayList<String>();
-        head.setName(headItem);
-        shoulder.setName(shoulderItem);
-        clothes.setName(clothesItem);
-        pants.setName(pantsItem);
-        gloves.setName(glovesItem);
-        weapon.setName(weaponItem);
-        head.setIcon(objItemHead.getString("Icon"));
-        shoulder.setIcon(objItemShoulder.getString("Icon"));
-        clothes.setIcon(objItemClothes.getString("Icon"));
-        pants.setIcon(objItemPants.getString("Icon"));
-        gloves.setIcon(objItemGloves.getString("Icon"));
-        weapon.setIcon(objItemWeapon.getString("Icon"));
-
-        ArrayList<Item> arr = new ArrayList<Item>();
-        arr.add(head);
-        arr.add(shoulder);
-        arr.add(clothes);
-        arr.add(pants);
-        arr.add(gloves);
-        arr.add(weapon);
-
+        JSONObject objItem = itemService.getJsonObject(obj, "Items");
+        for(String part: parts) {
+            jsonMap.put(part, objItem.getJSONObject(part));
+        }
+        for (Map.Entry<String, JSONObject> entry : jsonMap.entrySet()) {
+            Item curItem = new Item();
+            JSONObject curJson = entry.getValue();
+            JSONObject curOption = curJson.getJSONObject("Option");
+            curItem = ItemService.setItemInfo(curJson, curItem);
+            if(curOption.has("Engraving Effects")) {
+                curItem = ItemService.setItemEngrave
+                        (curOption.getJSONObject("Engraving Effects"), curItem);
+            }
+            ItemService.saveItem(curItem);
+        }
         model.addAttribute("username", uname);
-        model.addAttribute("items", arr);
-
+        model.addAttribute("items", ItemService.getItemList());
         return "/test/searchresult";
     }
 }
