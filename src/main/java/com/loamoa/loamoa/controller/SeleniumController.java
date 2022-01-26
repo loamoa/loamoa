@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SeleniumController {
 
     @GetMapping("/management/selenium")
-    public void selenium() {
+    public void selenium() throws InterruptedException {
         TaskSelenium taskSelenium = new TaskSelenium();
         taskSelenium.runSelenium();
     }
