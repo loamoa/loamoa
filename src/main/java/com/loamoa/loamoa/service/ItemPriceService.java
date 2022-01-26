@@ -63,6 +63,7 @@ public class ItemPriceService {
         for (WebElement e : itemPrices) {
             System.out.println(e.getText());
         }
+        driver.stopDriver();
         return itemPrices;
     }
 }

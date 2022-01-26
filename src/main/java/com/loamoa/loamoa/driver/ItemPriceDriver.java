@@ -59,10 +59,10 @@ public class ItemPriceDriver {
     private ChromeOptions setChromeOptions() {
         ChromeOptions options = new ChromeOptions();
         options.setCapability("ignoreProtectedModeSettings", true); // 보호모드를 무시하는 설정
-//        options.addArguments("--headless"); // 브라우저 창 없이 실행
-//        options.addArguments("--no-sandbox"); // 크롬 보안 기능 sandbox를 사용하지 않음
-//        options.addArguments("disable-gpu"); // GPU 사용 X
-//        options.addArguments("--window-size=1920,1080"); // 기본 화면 크기 지정
+        options.addArguments("--headless"); // 브라우저 창 없이 실행
+        options.addArguments("--no-sandbox"); // 크롬 보안 기능 sandbox를 사용하지 않음
+        options.addArguments("disable-gpu"); // GPU 사용 X
+        options.addArguments("--window-size=1920,1080"); // 기본 화면 크기 지정
         options.addArguments("lang=ko"); // 서버 동작을 위해 언어 설정
 
         options.addArguments("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 " +
@@ -88,7 +88,7 @@ public class ItemPriceDriver {
     public void runDriver(){
         driver.get(baseUrl);
     }
-
+    public void stopDriver() { driver.quit(); }
     /**
      * 메인 페이지 이외의 팝업창을 닫음 (현재 LostArk의 경우 Popup이 modal 형태로 존재하여 작동하지 않음)
      */
