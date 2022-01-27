@@ -1,31 +1,31 @@
 package com.loamoa.loamoa.domain;
 
 public class Item {
-    Long id, Price, yesterdayPrice;
+    float recentTradingPrice, currentMinPrice, dailyTradingPrice;
     String name;
 
-    public Long getId() {
-        return id;
+    public float getRecentTradingPrice() {
+        return recentTradingPrice;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecentTradingPrice(float recentTradingPrice) {
+        this.recentTradingPrice = recentTradingPrice;
     }
 
-    public Long getPrice() {
-        return Price;
+    public float getCurrentMinPrice() {
+        return currentMinPrice;
     }
 
-    public void setPrice(Long price) {
-        Price = price;
+    public void setCurrentMinPrice(float currentMinPrice) {
+        this.currentMinPrice = currentMinPrice;
     }
 
-    public Long getYesterdayPrice() {
-        return yesterdayPrice;
+    public float getDailyTradingPrice() {
+        return dailyTradingPrice;
     }
 
-    public void setYesterdayPrice(Long yesterdayPrice) {
-        this.yesterdayPrice = yesterdayPrice;
+    public void setDailyTradingPrice(float dailyTradingPrice) {
+        this.dailyTradingPrice = dailyTradingPrice;
     }
 
     public String getName() {
@@ -34,5 +34,15 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "recentTradingPrice=" + recentTradingPrice +
+                ", currentMinPrice=" + currentMinPrice +
+                ", dailyTradingPrice=" + dailyTradingPrice +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
