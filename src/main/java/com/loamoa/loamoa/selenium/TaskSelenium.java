@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import static com.loamoa.loamoa.utility.Utills.toFloatNumber;
@@ -26,8 +27,8 @@ import static com.loamoa.loamoa.utility.Utills.toFloatNumber;
 @Component
 public class TaskSelenium {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     public TaskSelenium() {
         this("selenium/chromedriver_97.0.4692.71/chromedriver"); // 기본 driverPath
@@ -35,7 +36,7 @@ public class TaskSelenium {
 
     public TaskSelenium(String driverPath) {
         URL resource; // driverPath 경로의 리소스 파일
-        Optional<String> filePath = null; // driverPath 경로
+        Optional<String> filePath = Optional.empty(); // driverPath 경로
 
         // driverPath에 chromedriver가 존재하는지 확인
         try {
@@ -146,12 +147,10 @@ public class TaskSelenium {
         ClassPathResource resource = new ClassPathResource("selenium/login/login.json");
         try {
             JSONObject user = (JSONObject) new JSONParser().parse(
-                    new InputStreamReader(resource.getInputStream(), "UTF-8"));
+                    new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
             id = user.get("id").toString();
             pw = user.get("pw").toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
         return Optional.of(new Account(id,pw));
