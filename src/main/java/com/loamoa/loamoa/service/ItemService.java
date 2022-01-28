@@ -5,6 +5,7 @@ import com.loamoa.loamoa.domain.MarketForm;
 import com.loamoa.loamoa.repository.MemoryItemRepository;
 import com.loamoa.loamoa.selenium.TaskSelenium;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,11 @@ public class ItemService {
         return itemList;
     }
 
+    /**
+     * Scheduled - 원하는 간격에 메소드를 실행
+     * cron = ( 초(0-59) | 분(0-59) | 시간(0-23) | 일(1-31) | 월(1-12) | 요일(0-7) )
+     */
+    @Scheduled(cron = "0 0 7 * * *") // 매일 오전 7시 실행
     public void refreshItems() {
         try {
             int type;
