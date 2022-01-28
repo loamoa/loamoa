@@ -15,9 +15,14 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/management/selenium")
-    public void test() {
-        itemService.test();
+    @GetMapping("/item/findall")
+    public void findall() {
+        itemService.findItems();
+    }
+
+    @GetMapping("/item/update")
+    public void update() {
+        itemService.refreshItems();
     }
 }
 
