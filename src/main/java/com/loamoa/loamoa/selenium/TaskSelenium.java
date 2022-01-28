@@ -67,17 +67,6 @@ public class TaskSelenium {
     }
 
     /**
-     * 셀레니움 드라이버를 종료한다.
-     */
-    public void stopSelenium() {
-        try {
-            driver.quit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * 거래소 검색 중 로스트아크 홈페이지에 로그인되지 않았다면 로그인을 시도한다.
      */
     public void loginHomePage() {
