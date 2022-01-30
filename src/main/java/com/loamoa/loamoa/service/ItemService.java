@@ -35,7 +35,14 @@ public class ItemService {
         JSONObject result = obj.getJSONObject(key);
         return result;
     }
-
+    public static Item setJewelInfo(JSONObject obj, Item item) {
+        item.setName(obj.getString("Name"));
+        item.setLevel(obj.getString("Level"));
+        item.setIcon(obj.getString("Icon"));
+        item.setGrade(obj.getString("Grade"));
+        item.setEffect(obj.getString("Effect"));
+        return item;
+    }
     public static Item setItemInfo(JSONObject obj, Item item) {
         item.setName(obj.getString("Name"));
         item.setUpgrade(obj.getString("Upgrade"));
@@ -59,17 +66,20 @@ public class ItemService {
         return item;
     }
 
-    public String checkItemInfo(String username) {
+    public String checkItemInfo(String username,  String apiURI) {
         RestTemplate restTemplate = new RestTemplate();
-        URI calculateURI = buildURI(username);
+        URI calculateURI = buildURI(username, apiURI);
         String result = restTemplate.getForObject(calculateURI, String.class);
         return result;
     }
 
-    private URI buildURI(String username) {
-        String endpointURI = "http://apis.iptime.org/LostArk/Character/Character-Item";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(endpointURI)
+    private URI buildURI(String username, String apiURI) {
+//        String endpointURI = "http://apis.iptime.org/LostArk/Character/Character-Item";
+//        String endpointURI =  "http://apis.iptime.org/LostArk/Character/Character-Jewel"
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(apiURI)
                 .queryParam("NickName", username);
         return builder.build().encode().toUri();
     }
+
+
 }

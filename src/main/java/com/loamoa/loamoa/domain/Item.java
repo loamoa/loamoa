@@ -1,8 +1,8 @@
 package com.loamoa.loamoa.domain;
 public class Item {
     private String name;
-    private String upgrade;
-    private String parts;
+    private String upgrade="0";
+    private String parts ="보석";
     private String level;
     private int quality;
     private String icon;
@@ -10,6 +10,9 @@ public class Item {
     private String engrave1_value;
     private String engrave2_name;
     private String engrave2_value;
+
+    private String grade;
+    private String effect;
 
     /*
     ** Getter and Setter
@@ -73,5 +76,19 @@ public class Item {
     }
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getEffect() {
+        return effect;
+    }
+    public void setEffect(String effect) {
+        this.effect = effect;
     }
 }
