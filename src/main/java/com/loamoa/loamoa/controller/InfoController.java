@@ -37,30 +37,37 @@ public class InfoController {
     public String search(UserForm form, Model model)  {
         ItemService.clearItem();
         String uname = form.getUsername();
-        String result = itemService.checkItemInfo(form.getUsername());
-        String[] parts_arr = {"머리 방어구", "어깨 방어구", "상의", "하의", "장갑","무기",
-                                "목걸이", "귀걸이1", "귀걸이2", "반지1", "반지2"
-                                };
-        ArrayList<String> parts = new ArrayList<>(Arrays.asList(parts_arr));
-        LinkedHashMap<String, JSONObject> jsonMap = new LinkedHashMap<>();
-        LinkedHashMap<String, JSONObject> jsonOptionMap = new LinkedHashMap<>();
-
-        JSONObject obj = new JSONObject(result);
-        JSONObject objItem = itemService.getJsonObject(obj, "Items");
-        for(String part: parts) {
-            jsonMap.put(part, objItem.getJSONObject(part));
-        }
-        for (Map.Entry<String, JSONObject> entry : jsonMap.entrySet()) {
+        LinkedHashMap<String, JSONObject> equipment = itemService.itemCrawling(uname);
+        for (Map.Entry<String, JSONObject> entry : equipment.entrySet()) {
             Item curItem = new Item();
             JSONObject curJson = entry.getValue();
-            JSONObject curOption = curJson.getJSONObject("Option");
-            curItem = ItemService.setItemInfo(curJson, curItem);
-            if(curOption.has("Engraving Effects")) {
-                curItem = ItemService.setItemEngrave
-                        (curOption.getJSONObject("Engraving Effects"), curItem);
-            }
+            curItem = itemService.setItemInfo(curJson, curItem);
             ItemService.saveItem(curItem);
         }
+//        String result = itemService.checkItemInfo(form.getUsername());
+//        String[] parts_arr = {"머리 방어구", "어깨 방어구", "상의", "하의", "장갑","무기",
+//                                "목걸이", "귀걸이1", "귀걸이2", "반지1", "반지2"
+//                                };
+//        ArrayList<String> parts = new ArrayList<>(Arrays.asList(parts_arr));
+//        LinkedHashMap<String, JSONObject> jsonMap = new LinkedHashMap<>();
+//        LinkedHashMap<String, JSONObject> jsonOptionMap = new LinkedHashMap<>();
+//
+//        JSONObject obj = new JSONObject(result);
+//        JSONObject objItem = itemService.getJsonObject(obj, "Items");
+//        for(String part: parts) {
+//            if(objItem.has(part)) jsonMap.put(part, objItem.getJSONObject(part));
+//        }
+//        for (Map.Entry<String, JSONObject> entry : jsonMap.entrySet()) {
+//            Item curItem = new Item();
+//            JSONObject curJson = entry.getValue();
+//            JSONObject curOption = curJson.getJSONObject("Option");
+//            curItem = ItemService.setItemInfo(curJson, curItem);
+//            if(curOption.has("Engraving Effects")) {
+//                curItem = ItemService.setItemEngrave
+//                        (curOption.getJSONObject("Engraving Effects"), curItem);
+//            }
+//            ItemService.saveItem(curItem);
+//        }
         model.addAttribute("username", uname);
         model.addAttribute("items", ItemService.getItemList());
         return "/test/searchresult";

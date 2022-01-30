@@ -13,30 +13,31 @@
     <a href="/input"> 돌아가기 </a>
     <div class="container">
         <div>
+            크롤링 테스트중
             <div th:text="${username} + '님의 정보입니다.'">님의 정보입니다.</div>
             <table>
                 <thead>
                 <tr>
                     <th>이름</th>
-                    <th>부위</th>
-                    <th>레벨(품질)</th>
+<!--                    <th>부위</th>-->
+<!--                    <th>레벨(품질)</th>-->
                     <th>이미지</th>
-                    <th>각인1</th>
-                    <th>각인2</th>
+<!--                    <th>각인1</th>-->
+<!--                    <th>각인2</th>-->
                 </tr>
                 <tbody>
                 <tr th:each="item : ${items}">
-                    <td th:if="${item.upgrade} != '0'" th:text="${item.name} + ' ' + ${item.upgrade}"></td>
-                    <td th:if="${item.upgrade} == '0'" th:text="${item.name}"></td>
-                    <td th:text="${item.parts}"></td>
-                    <td th:text="${item.level} + '(' + ${item.quality} + ')'"></td>
+<!--                    <td th:if="${item.upgrade} != '0'" th:text="${item.name} + ' ' + ${item.upgrade}"></td>-->
+<!--                    <td th:if="${item.upgrade} == '0'" th:text="${item.name}"></td>-->
+                    <td th:text="${item.name}"></td>
+<!--                    <td th:text="${item.level} + '(' + ${item.quality} + ')'"></td>-->
                     <td><img th:attr="src=${item.icon}" /></td>
-                    <span th:if="${item.engrave1_name} != null">
-                        <td th:text="${item.engrave1_name} + '(' + ${item.engrave1_value} + ')'"></td>
-                    </span>
-                    <span th:if="${item.engrave2_name} != null">
-                        <td th:text="${item.engrave2_name} + '(' + ${item.engrave2_value} + ')'"></td>
-                    </span>
+<!--                    <span th:if="${item.engrave1_name} != null">-->
+<!--                        <td th:text="${item.engrave1_name} + '(' + ${item.engrave1_value} + ')'"></td>-->
+<!--                    </span>-->
+<!--                    <span th:if="${item.engrave2_name} != null">-->
+<!--                        <td th:text="${item.engrave2_name} + '(' + ${item.engrave2_value} + ')'"></td>-->
+<!--                    </span>-->
                 </tr>
                 </tbody>
                 </thead>
