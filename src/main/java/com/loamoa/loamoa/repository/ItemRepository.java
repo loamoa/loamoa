@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface ItemRepository {
     Item save(Item item);
     List<Item> findAll();
-    Optional<Item> findByName(String itemName);
+    Optional<Item> findItemByName(String itemName);
     List<String> findAllItemName(int type);
 }

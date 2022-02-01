@@ -1,5 +1,7 @@
 package com.loamoa.loamoa.utility;
 
+import java.util.*;
+
 /**
  * 유틸리티 메소드를 저장하는 클래스
  */
@@ -26,5 +28,19 @@ public class Utills {
         return floatNumber;
     }
 
+    /**
+     * Integer Key와 String Value를 가진 HashMap을 Key기준 오름차순으로 정렬한다.
+     * @param map 정렬하려는 맵
+     * @return 정렬된 맵
+     */
+    public static LinkedHashMap<Integer, String> sortMapByKey(Map<Integer, String> map) {
+        List<Map.Entry<Integer, String>> entries = new LinkedList<>(map.entrySet());
+        Collections.sort(entries, (o1, o2) -> o1.getKey().compareTo(o2.getKey()));
 
+        LinkedHashMap<Integer, String> result = new LinkedHashMap<>();
+        for (Map.Entry<Integer, String> entry : entries) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
 }

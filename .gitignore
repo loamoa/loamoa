@@ -38,3 +38,4 @@ out/
 
 ### Secret Data ###
 **/login.json
+**/selenium/
